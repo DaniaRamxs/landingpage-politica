@@ -532,23 +532,6 @@
     animation: counter-pulse 0.9s ease-out forwards;
   }
 
-  /* ──── STICKY SECTION HEADERS ──── */
-  .sticky-section-header {
-    position: sticky;
-    top: 68px;
-    z-index: 30;
-    transition: background 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
-  }
-
-  .sticky-section-header.stuck {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 1px 0 rgba(27, 107, 58, 0.08), 0 4px 20px rgba(0, 0, 0, 0.06);
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-
   /* ──── GLASSMORPHISM ──── */
   .glass {
     background: rgba(255, 255, 255, 0.88);

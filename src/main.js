@@ -40,7 +40,6 @@ class CampanaApp {
     this.setupStatsAnimation();
     this.setupCounterAnimations();
     this.setupKineticText();
-    this.setupStickyHeaders();
   }
 
   // ============================================
