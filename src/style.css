@@ -121,7 +121,7 @@
 
   /* ──── TARJETAS ──── */
   .card {
-    @apply bg-white p-8 md:p-10 rounded-2xl transition-all duration-400;
+    @apply bg-white p-8 md:p-10 rounded-2xl transition-all duration-300;
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.04);
