@@ -1540,8 +1540,7 @@ a.footer-contact-value:hover {
     transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--verde-esperanza); }
-    .nav-cta,
-    .nav-links a.nav-cta {
+    .nav-cta {
     display: none;
     background: var(--verde-esperanza);
     color: white;
@@ -1551,12 +1550,9 @@ a.footer-contact-value:hover {
     font-size: 0.8rem;
     transition: background 0.2s, transform 0.2s;
     }
-    .nav-cta:hover,
-    .nav-links a.nav-cta:hover {
-    background: var(--verde-hover);
-    color: white;
-    transform: translateY(-1px);
-    }
+    .nav-links a.nav-cta { color: white; }
+    .nav-cta:hover { background: var(--verde-hover); transform: translateY(-1px); }
+    .nav-links a.nav-cta:hover { color: white; }
 
     @media (min-width: 768px) {
     .nav-links { display: flex; }
