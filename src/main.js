@@ -39,6 +39,8 @@ class CampanaApp {
     this.setupTimeline();
     this.setupStatsAnimation();
     this.setupCounterAnimations();
+    this.setupKineticText();
+    this.setupStickyHeaders();
   }
 
   // ============================================
@@ -199,6 +201,19 @@ class CampanaApp {
         if (shapes[2]) shapes[2].style.transform = `translateY(${progress * 15}px) translateX(${progress * 10}px)`;
       }
     }
+
+    // Generic parallax: any element with data-parallax="speed"
+    if (!this._parallaxEls) {
+      this._parallaxEls = [...document.querySelectorAll('[data-parallax]')];
+    }
+    this._parallaxEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const speed = parseFloat(el.dataset.parallax) || 0.1;
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        el.style.transform = `translateY(${center * speed * -1}px)`;
+      }
+    });
   }
 
   // ============================================
@@ -620,14 +635,81 @@ class CampanaApp {
     counters.forEach(c => observer.observe(c));
   }
 
-  animateNumber(el, target, duration = 1800) {
+  animateNumber(el, target, duration = 2000) {
     const start = performance.now();
+    const suffix = el.dataset.suffix || '';
     const step = now => {
-      const eased = 1 - Math.pow(1 - Math.min((now - start) / duration, 1), 3);
-      el.textContent = Math.floor(eased * target).toLocaleString('es-PE');
-      if (eased < 1) requestAnimationFrame(step);
+      const t = Math.min((now - start) / duration, 1);
+      // Elastic out: slight overshoot then settles
+      const eased = t === 1 ? 1
+        : 1 - Math.pow(2, -10 * t) * Math.cos((t * 10 - 0.75) * (2 * Math.PI) / 3);
+      const val = Math.min(Math.round(eased * target), target);
+      el.textContent = val.toLocaleString('es-PE') + suffix;
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = target.toLocaleString('es-PE') + suffix;
+        el.classList.add('counter-done');
+        setTimeout(() => el.classList.remove('counter-done'), 900);
+      }
     };
     requestAnimationFrame(step);
+  }
+
+  // ============================================
+  // 21. TEXTO CINÉTICO (word-by-word reveal)
+  // ============================================
+  setupKineticText() {
+    // Targets: [data-kinetic] attrs + all .section-subtitle with plain text
+    const targets = [
+      ...document.querySelectorAll('[data-kinetic]'),
+      ...document.querySelectorAll('.section-subtitle:not([data-kinetic])')
+    ];
+
+    targets.forEach(el => {
+      // Skip if already processed or has nested HTML elements
+      if (el.dataset.kineticDone) return;
+      if (el.children.length > 0) return; // has child elements, skip
+      const text = el.textContent.trim();
+      if (!text) return;
+
+      const words = text.split(/\s+/);
+      el.innerHTML = words.map((w, i) =>
+        `<span class="k-word" style="transition-delay:${i * 50}ms">${w}</span>`
+      ).join(' ');
+      el.classList.add('k-ready');
+      el.dataset.kineticDone = '1';
+    });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('k-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.25, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.k-ready').forEach(el => obs.observe(el));
+  }
+
+  // ============================================
+  // 22. STICKY SECTION HEADERS
+  // ============================================
+  setupStickyHeaders() {
+    document.querySelectorAll('.sticky-section-header').forEach(header => {
+      // Sentinel: invisible 1px div placed just before the header
+      const sentinel = document.createElement('div');
+      sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;pointer-events:none;';
+      header.parentElement.style.position = 'relative';
+      header.parentElement.insertBefore(sentinel, header);
+
+      const obs = new IntersectionObserver(([entry]) => {
+        header.classList.toggle('stuck', !entry.isIntersecting);
+      }, { rootMargin: `-${(this.header?.offsetHeight || 64) + 1}px 0px 0px 0px` });
+
+      obs.observe(sentinel);
+    });
   }
 }
 
