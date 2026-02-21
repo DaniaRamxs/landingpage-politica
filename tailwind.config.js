@@ -7,13 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        'verde-esperanza': '#3D7C59',
-        'verde-claro': '#E8F5E9',
-        'verde-hover': '#2D5F44',
-        'gris-oscuro': '#2C3E35',
+        'verde-profundo':  '#1B6B3A',
+        'verde-esperanza': '#28854A',
+        'verde-accent':    '#3DA86A',
+        'verde-claro':     '#E8F5EC',
+        'verde-hover':     '#22733F',
+        'oro':             '#C9A94E',
+        'oro-claro':       '#F7F0DC',
+        'gris-oscuro':     '#2C3E35',
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'sans':    ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        'display': ['DM Serif Display', 'Georgia', 'serif'],
       },
     },
   },
