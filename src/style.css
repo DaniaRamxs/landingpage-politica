@@ -1394,6 +1394,75 @@ a.footer-contact-value:hover {
     .fs-fb { background: #1877F2; }
     .fs-x { background: #000; }
     .fs-copy { background: var(--verde-esperanza); }
+    
+    /* ═══════════════════════════════════════
+    FLOATING ENGAGEMENT (FOLLOW)
+    ═══════════════════════════════════════ */
+    .floating-engagement {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+    .fe-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: all;
+      position: relative;
+    }
+    .fe-btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .fe-fb { background: #1877F2; }
+    .fe-wa { background: #25D366; }
+    .fe-btn svg { width: 22px; height: 22px; }
+    
+    .fe-tooltip {
+      position: absolute;
+      left: 100%;
+      margin-left: 12px;
+      background: var(--gris-oscuro);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .fe-btn:hover .fe-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    @media (max-width: 768px) {
+      .floating-engagement {
+        bottom: 1.5rem;
+        left: 1rem;
+      }
+      .fe-btn {
+        width: 42px;
+        height: 42px;
+      }
+      .fe-tooltip { display: none; }
+    }
 
     /* ═══════════════════════════════════════
     BACK TO TOP BUTTON
