@@ -121,43 +121,62 @@
     <style>
         /* ═══════════ GALLERY SECTION STYLES ═══════════ */
         .gallery-section {
-            padding: 100px 0;
+            padding: 80px 0;
             overflow: hidden;
+            background-color: var(--verde-frente-ultra-light, #f4f9f6);
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+        .gallery-carousel-wrapper {
+            position: relative;
             margin-top: 40px;
+            padding: 20px 0 40px;
+        }
+
+        .gallery-carousel {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 10px 4px;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+            cursor: grab;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .gallery-carousel::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
         }
 
         .gallery-item {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
             position: relative;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             aspect-ratio: 4 / 5;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-            cursor: pointer;
-            background: #f0f0f0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: #fff;
         }
 
         .gallery-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(27, 107, 58, 0.2);
-            z-index: 2;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(27, 107, 58, 0.15);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s ease;
         }
 
         .gallery-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .gallery-overlay {
@@ -165,32 +184,29 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 30px 20px 20px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+            padding: 40px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
             color: white;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
             opacity: 1;
-            transform: translateY(0);
+            /* Always visible on mobile/carousel for clarity */
         }
 
         .gallery-info {
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
             display: block;
-            border-left: 3px solid var(--oro);
+            border-left: 3px solid #C9A94E;
             padding-left: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* Video specific styles */
         .gallery-item-video {
+            flex: 0 0 500px;
             aspect-ratio: 16 / 9;
-            grid-column: span 2;
             background: #000;
+            display: flex;
+            align-items: center;
         }
 
         .gallery-item-video video {
@@ -199,13 +215,41 @@
             object-fit: contain;
         }
 
+        .carousel-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--verde-frente, #1B6B3A);
+            font-weight: 600;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
         @media (max-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
+            .gallery-item {
+                flex: 0 0 280px;
             }
 
             .gallery-item-video {
-                grid-column: span 1;
+                flex: 0 0 85vw;
+                max-width: 400px;
             }
         }
     </style>
@@ -1642,74 +1686,79 @@
             <div class="section-header reveal">
                 <div class="section-label">En Acción</div>
                 <h2 class="section-title">Galería de Actividades</h2>
-                <p class="section-subtitle">Momentos destacados de nuestra campaña recorriendo las 9 provincias de Lima
-                </p>
+                <p class="section-subtitle">Momentos destacados de nuestra campaña</p>
             </div>
 
-            <div class="gallery-grid reveal">
-                <!-- Imágenes -->
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-1.jpeg" alt="Actividad de campaña 1" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Compromiso con el pueblo</span>
+            <div class="gallery-carousel-wrapper reveal">
+                <div class="gallery-carousel">
+                    <!-- Imágenes -->
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-1.jpeg" alt="Actividad de campaña 1" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">Compromiso con el pueblo</span>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-2.jpeg" alt="Actividad de campaña 2" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Recorriendo las provincias</span>
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-2.jpeg" alt="Actividad de campaña 2" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">Recorriendo las provincias</span>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-3.jpeg" alt="Actividad de campaña 3" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Escuchando a la gente</span>
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-3.jpeg" alt="Actividad de campaña 3" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">Escuchando a la gente</span>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-4.jpeg" alt="Actividad de campaña 4" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Frente Esperanza en acción</span>
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-4.jpeg" alt="Actividad de campaña 4" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">Frente Esperanza en acción</span>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-5.jpeg" alt="Actividad de campaña 5" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Unidad por el cambio</span>
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-5.jpeg" alt="Actividad de campaña 5" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">Unidad por el cambio</span>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/gallery/gallery-img-6.jpeg" alt="Actividad de campaña 6" loading="lazy">
-                    <div class="gallery-overlay">
-                        <span class="gallery-info">Marlene Luyo con la comunidad</span>
+                    <div class="gallery-item">
+                        <img src="/images/gallery/gallery-img-6.jpeg" alt="En comunidad" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="gallery-info">En comunidad</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Videos -->
-                <div class="gallery-item gallery-item-video">
-                    <video controls preload="metadata">
-                        <source src="/videos/gallery/gallery-vid-1.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
+                    <!-- Videos -->
+                    <div class="gallery-item gallery-item-video">
+                        <video controls preload="metadata">
+                            <source src="/videos/gallery/gallery-vid-1.mp4" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
+                    <div class="gallery-item gallery-item-video">
+                        <video controls preload="metadata">
+                            <source src="/videos/gallery/gallery-vid-2.mp4" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
+                    <div class="gallery-item gallery-item-video">
+                        <video controls preload="metadata">
+                            <source src="/videos/gallery/gallery-vid-3.mp4" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
+                    <div class="gallery-item gallery-item-video">
+                        <video controls preload="metadata">
+                            <source src="/videos/gallery/gallery-vid-4.mp4" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
                 </div>
-                <div class="gallery-item gallery-item-video">
-                    <video controls preload="metadata">
-                        <source src="/videos/gallery/gallery-vid-2.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                </div>
-                <div class="gallery-item gallery-item-video">
-                    <video controls preload="metadata">
-                        <source src="/videos/gallery/gallery-vid-3.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                </div>
-                <div class="gallery-item gallery-item-video">
-                    <video controls preload="metadata">
-                        <source src="/videos/gallery/gallery-vid-4.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                </div>
+                <div class="carousel-hint">Desliza para ver más <svg width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg></div>
             </div>
         </div>
     </section>
@@ -2162,27 +2211,21 @@
                     </div>
                     <h4>Síguenos</h4>
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16"
-                                height="16" fill="currentColor">
+                        <a href="https://www.facebook.com/marlene.luyoludena" class="social-link" aria-label="Facebook"
+                            target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                                 <path
                                     d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                            </svg></a>
-                        <a href="#" class="social-link" aria-label="X / Twitter"><svg viewBox="0 0 24 24" width="14"
-                                height="14" fill="currentColor">
+                            </svg>
+                        </a>
+                        <a href="https://whatsapp.com/channel/0029VbCYQDxGJP8D5bvKby00" class="social-link"
+                            aria-label="Canal de WhatsApp" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
-                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                            </svg></a>
-                        <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16"
-                                height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" />
-                                <circle cx="12" cy="12" r="5" />
-                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
-                            </svg></a>
-                        <a href="#" class="social-link" aria-label="TikTok"><svg viewBox="0 0 24 24" width="14"
-                                height="14" fill="currentColor">
-                                <path
-                                    d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V12.8a8.25 8.25 0 004.78 1.52V10.9a4.84 4.84 0 01-.8.07 4.83 4.83 0 01-2.88-.96v6.64h-.01V8.73a8.3 8.3 0 004.49 1.32V6.69z" />
-                            </svg></a>
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-11.7 8.38 8.38 0 0 1 3.8.9L21 3z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
