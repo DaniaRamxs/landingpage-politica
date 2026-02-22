@@ -105,7 +105,7 @@ El proyecto se puede desplegar fácilmente en:
 ## 📞 Soporte
 
 Para más información sobre la campaña:  
-📧 contacto@marleneluyo2026.pe  
+📧 contacto@marleneluyo.com  
 📱 +51 (01) 234-5678
 
 ---

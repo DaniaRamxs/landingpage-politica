@@ -415,14 +415,14 @@ class CampanaApp {
 
     const update = () => {
       const diff = this.electionDate - new Date();
-      const days  = Math.max(0, Math.floor(diff / 86400000));
+      const days = Math.max(0, Math.floor(diff / 86400000));
       const hours = Math.max(0, Math.floor((diff % 86400000) / 3600000));
-      const mins  = Math.max(0, Math.floor((diff % 3600000) / 60000));
-      const secs  = Math.max(0, Math.floor((diff % 60000) / 1000));
-      if (el('cd-days'))  el('cd-days').textContent  = days;
+      const mins = Math.max(0, Math.floor((diff % 3600000) / 60000));
+      const secs = Math.max(0, Math.floor((diff % 60000) / 1000));
+      if (el('cd-days')) el('cd-days').textContent = days;
       if (el('cd-hours')) el('cd-hours').textContent = pad(hours);
-      if (el('cd-mins'))  el('cd-mins').textContent  = pad(mins);
-      if (el('cd-secs'))  el('cd-secs').textContent  = pad(secs);
+      if (el('cd-mins')) el('cd-mins').textContent = pad(mins);
+      if (el('cd-secs')) el('cd-secs').textContent = pad(secs);
     };
 
     update();
@@ -449,17 +449,17 @@ class CampanaApp {
   // ============================================
   setupFloatingShare() {
     const fsToggle = document.getElementById('fsToggle');
-    const fsCopy   = document.getElementById('fsCopy');
+    const fsCopy = document.getElementById('fsCopy');
 
     fsToggle?.addEventListener('click', () => {
       document.getElementById('floatingShare')?.classList.toggle('open');
     });
 
     fsCopy?.addEventListener('click', () => {
-      navigator.clipboard.writeText('https://marleneluyo2026.pe').then(() => {
+      navigator.clipboard.writeText('https://marleneluyo.com').then(() => {
         fsCopy.style.background = '#C9A94E';
         setTimeout(() => { fsCopy.style.background = ''; }, 1500);
-      }).catch(() => {});
+      }).catch(() => { });
     });
   }
 

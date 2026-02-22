@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://marleneluyo2026.pe/sitemap.xml
+Sitemap: https://marleneluyo.com/sitemap.xml
