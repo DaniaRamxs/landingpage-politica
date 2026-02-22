@@ -722,9 +722,28 @@ if (document.readyState === 'loading') {
 }
 
 // ============================================
-// EMAIL OFUSCADO (sin dependencia de Cloudflare)
+// REDIRECCIÓN INTELIGENTE A FACEBOOK (App deep link)
 // ============================================
-document.getElementById('contactEmail')?.addEventListener('click', function (e) {
-  e.preventDefault();
-  window.location.href = `mailto:${this.dataset.user}@${this.dataset.domain}`;
-});
+window.openFacebook = function (e) {
+  if (e) e.preventDefault();
+
+  const fbAppUrl = 'fb://profile/100003157652595';
+  const fbWebUrl = 'https://www.facebook.com/marlene.luyoludena';
+  const now = Date.now();
+
+  // En móviles, intentamos abrir la app de Facebook
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    window.location.href = fbAppUrl;
+
+    // Si en 800ms no ha salido de la página, es probable que no tenga la app
+    setTimeout(() => {
+      if (Date.now() - now < 1500) {
+        window.open(fbWebUrl, '_blank');
+      }
+    }, 800);
+  } else {
+    // En escritorio, abrir directamente la web
+    window.open(fbWebUrl, '_blank');
+  }
+};
+
